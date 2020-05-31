@@ -22,7 +22,7 @@ cd Python-3.7.6
 ./configure
 make
 make install
-echo "export PATH=$PATH:/usr/local/bin" >> ~./bashrc
+echo "export PATH=$PATH:/usr/local/bin" > /etc/profile.d/videouploader.sh  # creating a custom profile in /etc/profile.d for python3
 
 # install awscli
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
