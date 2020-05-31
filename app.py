@@ -15,9 +15,9 @@ def storage():
 @app.route("/upload", methods=['POST'])
 def upload():
     if request.method == "POST":
-        # f = request.files['file']
-        # f.save(os.path.join(UPLOAD_FOLDER, f.filename))
-        upload_file("upload-file/test-file.txt", "experiment-video-upload-bucket")
+         f = request.files['file']
+         f.save(os.path.join('upload-file', f.filename))
+         upload_file(f"upload-file/{f.filename}", "experiment-video-upload-bucket")
 
         return redirect("/storage")
 
