@@ -34,4 +34,4 @@ def upload_file(file_name, bucket):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
