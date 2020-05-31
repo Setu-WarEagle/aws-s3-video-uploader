@@ -18,8 +18,7 @@ def upload():
          f = request.files['file']
          f.save(os.path.join('upload-file', f.filename))
          upload_file(f"upload-file/{f.filename}", "experiment-video-upload-bucket")
-
-        return redirect("/storage")
+         return redirect("/storage")
 
 
 def upload_file(file_name, bucket):
