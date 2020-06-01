@@ -15,14 +15,19 @@ def storage():
 
 @app.route("/upload", methods=['POST'])
 def upload():
+    def uploading_progress(file, filename):
+        print(f.filename)
+        yield "Saving the file: {}. Please be patient...."
+        file.save(os.path.join('upload-file', filename))
+        yield "Saved! Starting to upload to S3 ..."
+        upload_file(f"upload-file/{filename}", "experiment-video-upload-bucket")
+        yield "Uploaded to S3! redirecting to home page now..."
+        time.sleep(5)
+        return redirect("/storage")
+
     f = request.files['file']
-    yield "Saving the file: {}. Please be patient...."
-    f.save(os.path.join('upload-file', f.filename))
-    yield "Saved! Starting to upload to S3 ..."
-    upload_file(f"upload-file/{f.filename}", "experiment-video-upload-bucket")
-    yield "Uploaded to S3! redirecting to home page now..."
-    time.sleep(5)
-    return redirect("/storage")
+    print(f)
+    return Response(uploading_progress(f, f.filename), mimetype='text/event-stream')
 
 def upload_file(file_name, bucket):
     """
