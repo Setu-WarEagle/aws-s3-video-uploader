@@ -16,6 +16,7 @@ def storage():
 @app.route("/upload", methods=['POST'])
 def upload():
     def uploading_progress(f):
+        print(f.filename)
         yield "Saving the file: {}. Please be patient...."
         f.save(os.path.join('upload-file', f.filename))
         yield "Saved! Starting to upload to S3 ..."
