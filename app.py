@@ -17,7 +17,7 @@ def storage():
 def upload():
     if request.method == "POST":
          f = request.files['file']
-         Response(uploading_progress(f), mimetype='text/event-stream')
+         return Response(uploading_progress(f), mimetype='text/event-stream')
 
 def uploading_progress(f):
     yield "Saving the file: {}. Please be patient...."
