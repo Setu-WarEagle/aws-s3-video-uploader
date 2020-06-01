@@ -25,9 +25,10 @@ def upload():
             upload_file(f"upload-file/{file.filename}", "experiment-video-upload-bucket")
             yield "Uploaded to S3! redirecting to home page now..."
             time.sleep(5)
-            return redirect("/storage")
+        return
 
-        return uploading_progress((request))
+        uploading_progress((request))
+        return redirect("/storage")
 
 def upload_file(file_name, bucket):
     """
