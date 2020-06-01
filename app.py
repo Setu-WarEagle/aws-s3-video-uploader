@@ -27,7 +27,7 @@ def upload():
             time.sleep(5)
             return redirect("/storage")
 
-        return (uploading_progress((request)))
+        return uploading_progress((request))
 
 def upload_file(file_name, bucket):
     """
