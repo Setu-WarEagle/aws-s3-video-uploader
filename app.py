@@ -1,7 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, send_file, Response
+from flask import Flask, render_template, request, redirect, send_file
 import boto3
-import time
 
 app = Flask(__name__)
 
@@ -15,20 +14,12 @@ def storage():
 
 @app.route("/upload", methods=['POST'])
 def upload():
-    def uploading_progress(req):
-        with app.test_request_context():
-            request = req
-            file = request.files['file']
-            yield "Saving the file: {}. Please be patient...."
-            file.save(os.path.join('upload-file', file.filename))
-            yield "Saved! Starting to upload to S3 ..."
-            upload_file(f"upload-file/{file.filename}", "experiment-video-upload-bucket")
-            yield "Uploaded to S3! redirecting to home page now..."
-            time.sleep(5)
-        return "OK"
+    if request.method == "POST":
+         f = request.files['file']
+         f.save(os.path.join('upload-file', f.filename))
+         upload_file(f"upload-file/{f.filename}", "experiment-video-upload-bucket")
+         return redirect("/storage")
 
-        uploading_progress((request))
-        return redirect("/storage")
 
 def upload_file(file_name, bucket):
     """
