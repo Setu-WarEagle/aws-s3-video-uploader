@@ -3,6 +3,10 @@
 
 Tutorial followed : https://stackabuse.com/file-management-with-aws-s3-python-and-flask/
 
+Flask and XMLHTTPRequest for progress bar: 
+1. https://pythonise.com/articles/upload-progress-bar-xmlhttprequest
+2. https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload
+
 ---
 
 ##### Preserving bootstrap steps needed to prepare the EC2 instance

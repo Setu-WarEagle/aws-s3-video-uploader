@@ -1,25 +1,41 @@
 import os
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file, make_response, jsonify
 import boto3
+import time
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def entry_point():
     return 'Hello World'
 
-@app.route('/storage')
+@app.route('/')
 def storage():
-    return  render_template('index.html')
+    return render_template('upload-video.html')
 
-@app.route("/upload", methods=['POST'])
-def upload():
+@app.route("/upload-video", methods=["GET", "POST"])
+def upload_video():
+    """
+    Post : uploads the file.
+    GET  : renders the page.
+    reference:
+    https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload
+    https://pythonise.com/articles/upload-progress-bar-xmlhttprequest
+    :return: 200 response if success.
+    """
     if request.method == "POST":
-         f = request.files['file']
-         f.save(os.path.join('upload-file', f.filename))
-         upload_file(f"upload-file/{f.filename}", "experiment-video-upload-bucket")
-         return redirect("/storage")
+        file = request.files["file"]
+        file.save(os.path.join('upload-file', file.filename))
+        print("File uploaded to server!")
 
+        #s3 upload.
+        upload_file(f"upload-file/{file.filename}", "experiment-video-upload-bucket")
+        res = make_response(jsonify({"message": "File uploaded"}), 200)
+        return res
+
+    return render_template("upload-video.html")
 
 def upload_file(file_name, bucket):
     """
@@ -28,9 +44,7 @@ def upload_file(file_name, bucket):
     object_name = file_name
     s3_client = boto3.client('s3')
     response = s3_client.upload_file(file_name, bucket, object_name)
-
     return response
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
