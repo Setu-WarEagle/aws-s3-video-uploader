@@ -8,10 +8,6 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
-def entry_point():
-    return 'Hello World'
-
-@app.route('/')
 def storage():
     return render_template('upload-video.html')
 
