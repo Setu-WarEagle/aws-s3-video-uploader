@@ -33,6 +33,10 @@ def upload_video():
         #s3 upload.
         upload_file(f"upload-file/{file.filename}", "experiment-video-upload-bucket")
         res = make_response(jsonify({"message": "File uploaded"}), 200)
+
+        #remove the file from local server.
+        os.remove(f"upload-file/{file.filename}")
+
         return res
 
     return render_template("upload-video.html")
